@@ -10,7 +10,7 @@ __These instructions will get you a copy of the project up and running on your l
 
 ### Prerequisites
 
-This package assumes the standard installation of Python3. For specific package requirements, see the [requirements.txt](requirements.txt) file.
+This package assumes the standard installation of Python3.
 
 <!--
 ### Installing
