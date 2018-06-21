@@ -323,3 +323,48 @@ def y_scaler(fig_nums, y_min=None, y_max=None):
             plt.ylim(ymin=y_min, ymax=y_max)
         scaled_figs.append(fig)
     return scaled_figs
+
+
+def bokeh_multi_scatter(df, x_col, y_cols, y_label, title, to_svg=False):
+    """Generates a Bokeh figure object for the supplied data, with hover interactivity. Points are coloured according to a datacolumn
+    Parameters
+    ----------
+    df : dataframe
+        Pandas DataFrame containing the data to be plotted (x, y) as columns.
+    x_col : str
+        Column name for x_data, also used to label the x-axis
+    y_cols : list
+        List of columns to be plotted as y data
+    y_label : str
+        used to label the y-axis
+    title : str
+        Title of figure to be generated
+    to_svg : bool, False (default)
+        If true, the save button on the generated html plot will save an svg. Be aware this can affect the interactive functions in html version.
+    Returns
+    -------
+    fig
+        Bokeh figure object, which can be plotted (using show(fig)) or added to grid layout.
+    """
+
+    source = ColumnDataSource(df)
+    TOOLS = "hover,save,pan,box_zoom,reset,wheel_zoom"
+
+    fig = figure(title=title, plot_width=500, plot_height=500, tools=TOOLS, toolbar_location='below')
+
+    #adding all elements to the figure plot
+    fig.grid.grid_line_color = None
+    fig.background_fill_color = None
+    fig.xaxis.axis_label = str(x_col)
+    fig.yaxis.axis_label = str(y_label)
+    for col in y_cols:
+        fig.scatter(x=x_col,
+          y=col,
+          marker='circle', size=10,
+          source=source,
+          )
+
+    if to_svg:
+        fig.output_backend = "svg"
+
+    return fig
