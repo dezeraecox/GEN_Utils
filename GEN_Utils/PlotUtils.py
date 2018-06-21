@@ -1,5 +1,5 @@
 """
-Collection of plotting functions, including histograms and scatterplots in both Matplotlib and Bokehself.
+Collection of plotting functions, including histograms and scatterplots in both Matplotlib and Bokeh.
 """
 
 import pandas as pd
@@ -232,59 +232,8 @@ def inter_scatter(xdata,ydata, xlabel, ylabel, colours, title, datalabels):
     plt.show()
     return fig
 
-def pep_abund_hist(input_file):
-    """Generates separate histograms for peptide abundance ratios for each replicate within a single file
 
-    Parameters
-    ----------
-    input_file : str
-        full path to input_file containing replicate abundance ratios with the standard ProteomeDiscoverer headers
-
-    Returns
-    -------
-    fig_dict
-        dictionary of matplotlib figure object mapped to replicate names.
-
-    """
-
-    #load the peptide sheet, get the sample name
-    peptide_data = FileHandling.sheet_reader(input_file, 'Peptides')
-
-    #collecting samplename from input_file
-    filename, extension = os.path.splitext(input_file)
-    sample_name = re.split(r"\\|/", filename)[-1]
-    logger.info("Generating histogram for {}".format(sample_name))
-    #collect the list of column names containing abundance ratios
-    AR_cols = [col for col in peptide_data.columns if 'Abundance Ratio: (' in col]
-    logger.info('Replicate Columns: {}'.format(AR_cols))
-    number_replicates = len(AR_cols)
-    #creating replicate names for graph titles
-    ## could also consider appending this to a dictionary to be careful about what order they are appended in and map to actual column names
-    rep_names = []
-    for x in range (0, number_replicates):
-        replicate = 'Replicate ' + str(x+1)
-        rep_names.append(replicate)
-    logger.info('Replicate Names: {}'.format(rep_names))
-
-    #create empty figure Dictionary
-    fig_dict = {}
-    for i, replicate in enumerate(AR_cols):
-        fig = plt.figure()
-        samplename = rep_names[i]
-        #select data from peptide_data using the entry in column list
-        data = peptide_data[(AR_cols[i])]
-        fig = simple_hist(data, samplename, min=0, max=5)
-        plt.tight_layout()
-        #add sample name as title of whole figure, using y at 1.08 to give whitespace between title and plots
-        plt.suptitle(samplename, fontsize=16, y=1.08)
-        #plt.show(fig1)
-        fig_dict[samplename] = fig
-        plt.show(fig)
-
-    return fig_dict
-
-
-def bokeh_volcano_maker(df, x_col, y_col, c_col, title, hover_list, to_svg=False):
+def bokeh_scatter_maker(df, x_col, y_col, c_col, title, hover_list, to_svg=False):
     """Generates a Bokeh figure object for the supplied data, with hover interactivity. Points are coloured according to a datacolumn
     Parameters
     ----------
@@ -317,10 +266,8 @@ def bokeh_volcano_maker(df, x_col, y_col, c_col, title, hover_list, to_svg=False
     fig = figure(title=title, plot_width=500, plot_height=500, tools=TOOLS, toolbar_location='below')
 
     #creating objects to be added to the figure
-    vline = Span(location=1, dimension='height', line_color='grey', line_width=1, line_dash='dotted')
-    vline = Span(location=-1, dimension='height', line_color='grey', line_width=1, line_dash='dotted')
     vline = Span(location=0, dimension='height', line_color='red', line_width=1, line_dash='dotted')
-    hline = Span(location=1.3, dimension='width', line_color='grey', line_width=1, line_dash='dotted')
+    hline = Span(location=0, dimension='width', line_color='grey', line_width=1, line_dash='dotted')
     color_bar = ColorBar(color_mapper=mapper, major_label_text_font_size="5pt",
                      ticker=BasicTicker(desired_num_ticks=len(colors)),
                      label_standoff=6, border_line_color=None, location=(0, 0))
