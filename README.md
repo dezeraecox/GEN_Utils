@@ -1,4 +1,4 @@
-# ProteomicsUtils
+# GEN_Utils
 
 A collection of utility functions for processing, analysing and plotting generic tabular data
 
