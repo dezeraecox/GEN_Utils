@@ -24,8 +24,8 @@ from bokeh.models import (
 )
 from bokeh.io import export_svgs
 from bokeh.layouts import gridplot
-from ProteomicsUtils.LoggerConfig import logger_config
-from ProteomicsUtils import FileHandling
+from GEN_Utils.LoggerConfig import logger_config
+from GEN_Utils import FileHandling
 
 logger = logger_config(__name__)
 logger.info('Import ok')
