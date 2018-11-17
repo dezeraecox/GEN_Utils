@@ -7,6 +7,9 @@ from GEN_Utils.LoggerConfig import logger_config
 logger = logger_config(__name__)
 logger.info('Import ok')
 
+# The following examples were collected from https://realpython.com/primer-on-python-decorators/
+# Check here for usage and tutorials
+
 def generic_decorator(func):
     """Example decorator boilerplate code"""
     @functools.wraps(func)
