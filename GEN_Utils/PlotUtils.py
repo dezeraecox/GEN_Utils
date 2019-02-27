@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 from matplotlib.text import Annotation
 import numpy as np
 from matplotlib.backends.backend_pdf import PdfPages
+import matplotlib.colors as colors
 import logging
 from bokeh.plotting import figure, show, output_file
 from bokeh.palettes import brewer
@@ -368,3 +369,11 @@ def bokeh_multi_scatter(df, x_col, y_cols, y_label, title, to_svg=False):
         fig.output_backend = "svg"
 
     return fig
+
+
+
+def truncate_colormap(cmap, minval=0.0, maxval=1.0, n=100):
+    new_cmap = colors.LinearSegmentedColormap.from_list(
+        'trunc({n},{a:.2f},{b:.2f})'.format(n=cmap.name, a=minval, b=maxval),
+        cmap(np.linspace(minval, maxval, n)))
+    return new_cmap
