@@ -38,7 +38,7 @@ def df_to_excel(output_path, sheetnames, data_frames):
     for x in range(0, len(sheetnames)):
         sheetname = sheetnames[x]
         data_frame = data_frames[x]
-        data_frame.to_excel(writer, sheet_name=sheetname, index=False)
+        data_frame.to_excel(writer, sheet_name=sheetname)
     # Close the Pandas Excel writer and output the Excel file.
     writer.save()
 
