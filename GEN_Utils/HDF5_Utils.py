@@ -8,7 +8,10 @@ import pandas as pd
 import numpy as np
 from collections import Iterable
 import matplotlib.pyplot as plt
-from loguru import logger
+
+from GEN_Utils.LoggerConfig import logger_config
+
+logger = logger_config(__name__)
 logger.info('Import OK')
 
 def h5store(filename, key, df, **kwargs):
